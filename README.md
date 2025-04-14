@@ -6,4 +6,6 @@ Códigos em R com sistema Tidyverse explorando os principais recursos.
 
 "IMPORTE, ARRUME, TRANSFORME, VISUALIZE E MODELE DADOS."
 
+Visite para saber mais: <https://tidyverse.tidyverse.org/>
+
 
