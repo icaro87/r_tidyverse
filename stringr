@@ -1,1 +1,69 @@
 Exemplos de código em R com o pacote stringr do sistema tidyverse.
+
+# ================ FUNCOES BASICAS DO PACOTE STRINGR/STRINGI
+
+
+# pacotes -----------------------------------------------------------------
+
+
+library(stringr)
+
+
+# stringr -----------------------------------------------------------------
+
+# concatenacao
+str_c("Icaro", "Pinheiro", sep = " ")
+
+# contador de caracteres da string
+str_count("Icaro")
+
+# identificar um caracter na string
+str_detect("Icaro3", pattern = "3", negate = FALSE)
+
+# replicar string n vezes
+str_dup(c("cavalo", "pato", "tartaruga"), 2)
+
+# identificando presenca/ausencia de caracter no inicio/fim da string
+str_starts("Cavalo", pattern = "Cav", negate = FALSE)
+str_starts("Cavalo", pattern = "lo", negate = FALSE)
+str_ends("Cavalo", pattern = "Cav", negate = FALSE)
+str_ends("Cavalo", pattern = "lo", negate = FALSE)
+
+# determinando se 2 strings sao iguais
+str_equal("Icaro", "Pinheiro")
+
+# extracao de caracteres da string
+str_extract("Ic@ro", pattern = "@", group = NULL)
+
+# interpolacao de string com codigo R
+str_glue("Icaro tem {52+10-30} anos.")
+
+# numero de pontos da string
+str_length("Icaro")
+
+# removendo caracteres da string
+str_remove("Icaro  Pinheiro", pattern = " ")
+str_remove("Icaro Pinheiro_", pattern = "_")
+
+# substituir caracteres na string
+str_replace("Icaro_Pinheiro", pattern = "_", replacement = " ")
+
+# separar string por um padrao ou caracter
+str_split("Icaro-Pinheiro", pattern = "-")
+
+# Obter substrings por posicao
+str_sub("(Icaro Pinheiro*(", start = 2L, end = -3L)
+
+# removendo espacos no inicio e no fim da string
+str_trim(" Icaro Pinheiro ")
+
+# removendo espacos internos e extras da string
+str_squish(" Icaro  Pinheiro ")
+
+# transformando 
+str_to_lower("Icaro Pinheiro")
+str_to_upper("Icaro Pinheiro")
+str_to_title("icaro pinheiro")
+
+# string no formato de frase
+str_to_sentence("DATA SCIENCE É UM CARGO OU UMA PROFISSÃO?")
