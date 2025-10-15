@@ -51,7 +51,7 @@ df_wider <-
 # combinar
 df_combinar <- 
   df_long %>% 
-  mutate(Unidade = "mm") %>% 
+  mutate(Unidade = "cm") %>% 
   unite("Caracteristicas_Unidade", c(Características, Unidade))
 
 # separar
