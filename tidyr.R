@@ -1,0 +1,60 @@
+# ================ FUNCOES BASICAS DO PACOTE TIDYR
+
+
+# pacotes -----------------------------------------------------------------
+
+
+library(tidyr)
+library(magrittr)
+library(dplyr)
+
+
+# base --------------------------------------------------------------------
+
+
+df <- iris
+
+
+# transformacao -----------------------------------------------------------
+
+
+agregado <- 
+  df %>% group_by(Species) %>% 
+  summarise_at(.vars = vars(Sepal.Length:Petal.Width), .funs = mean, na.rm = TRUE)
+
+
+# pivotagem ---------------------------------------------------------------
+
+# pivotar no modo longo
+df_long <- 
+  agregado %>% 
+  pivot_longer(
+    cols = c(Sepal.Length:Petal.Width), 
+    names_to = "Características", 
+    values_to = "Medidas"
+  )
+
+
+# pivotar no modo esticar
+df_wider <- 
+  df_long %>% 
+  pivot_wider(names_from = "Características", values_from = "Medidas")
+
+
+
+# separar e combinar colunas ----------------------------------------------
+
+
+# combinar
+df_combinar <- 
+  df_long %>% 
+  mutate(Unidade = "cm") %>% 
+  unite("Caracteristicas_Unidade", c(Características, Unidade))
+
+# separar
+df_separar <- 
+  df_combinar %>% 
+  separate(Caracteristicas_Unidade, c("Características", "Unidade"), "_")
+
+
+
