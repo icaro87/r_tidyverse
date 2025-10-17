@@ -1,0 +1,123 @@
+Exemplos de gráficos com o pacote GGPLOT2
+
+# ================ FUNCOES BASICAS DO PACOTE GGPLOT2
+
+
+# pacotes -----------------------------------------------------------------
+
+
+library(tidyr)
+library(magrittr)
+library(dplyr)
+library(ggplot2)
+
+
+# base --------------------------------------------------------------------
+
+
+df <- iris
+
+
+# transformacao -----------------------------------------------------------
+
+
+agregado <- 
+  df %>% group_by(Species) %>% 
+  summarise_at(.vars = vars(Sepal.Length:Petal.Width), .funs = mean, na.rm = TRUE)
+
+
+# pivotagem ---------------------------------------------------------------
+
+# pivotar no modo longo
+df_long <- 
+  agregado %>% 
+  pivot_longer(
+    cols = c(Sepal.Length:Petal.Width), 
+    names_to = "Características", 
+    values_to = "Medidas"
+  )
+
+
+# pivotar no modo esticar
+df_wider <- 
+  df_long %>% 
+  pivot_wider(names_from = "Características", values_from = "Medidas")
+
+
+
+# grafico de barra --------------------------------------------------------
+
+
+df_wider %>% 
+  ggplot(aes(x = Species, y = Sepal.Length))+
+  geom_col(width = .4, fill = "orange")+
+  labs(title = "Sepal lenght for Species", subtitle = "n = 150", x = "")
+  
+  
+
+# grafico de barras empilhadas --------------------------------------------
+
+
+df_long %>% 
+  ggplot(aes(x = Species, y = Medidas, fill = Características))+
+  geom_col(position = 'fill', width = .4, alpha = .7)+
+  labs(title = "Edgar Anderson's Iris Data", subtitle = "n = 150", x = "", y = "")
+  
+  
+
+# grafico de dispersao ----------------------------------------------------
+
+
+# Sepal  
+df %>% 
+  ggplot(aes(x = Sepal.Length, y = Sepal.Width))+
+  geom_point(aes(colour = Species))+
+  labs(title = "Sepal lenght vs Sepal width for Species", subtitle = "n = 150")
+
+# Petal
+df %>% 
+  ggplot(aes(x = Petal.Length, y = Petal.Width))+
+  geom_point(aes(colour = Species))+
+  labs(title = "Petal lenght vs Petal width for Species", subtitle = "n = 150")
+
+
+
+# grafico de linhas -------------------------------------------------------
+
+
+
+# qualidade do ar
+datasets::airquality %>% 
+  group_by(Month) %>% 
+  summarise(Temp = mean(Temp)) %>% 
+  ggplot(aes(x = Month, y = Temp))+
+  geom_line(linewidth = 1.2, colour = "orange")+
+  geom_point(colour = "white", size = 3, shape = 21, fill = "orange")+
+  labs(title = "Air Quality - Temp", subtitle = "n = 153")
+
+
+# qualidade do ar - grafico de area
+datasets::airquality %>% 
+  group_by(Month) %>% 
+  summarise(Temp = mean(Temp)) %>% 
+  ggplot(aes(x = Month, y = Temp))+
+  geom_line(linewidth = 1.2, colour = "orange")+
+  geom_area(fill = "orange", alpha = .4)+
+  geom_point(colour = "white", size = 3, shape = 21, fill = "orange")+
+  labs(title = "Air Quality - Temp", subtitle = "n = 153")+
+  theme_classic()
+
+
+# qualidade do ar - grafico de area
+datasets::airquality %>% 
+  group_by(Month) %>% 
+  summarise(Temp = mean(Temp)) %>% 
+  ggplot(aes(x = Month, y = Temp))+
+  geom_line(linewidth = 1.2, colour = "orange")+
+  geom_area(fill = "orange", alpha = .4)+
+  geom_point(colour = "orange", size = 3, shape = 21, fill = "white")+
+  labs(title = "Air Quality - Temp", subtitle = "n = 153")+
+  theme_classic()
+
+
+
